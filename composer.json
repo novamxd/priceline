@@ -4,7 +4,6 @@
 		"silex/silex": "1.*",
 		"twig/twig": "1.*",
 		"twig/extensions": "*",
-		"symfony/twig-bridge": "~2.3",
-		"doctrine/orm": "*"
+		"symfony/twig-bridge": "~2.3"
 	}
 }
