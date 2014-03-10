@@ -3,6 +3,8 @@
 	{
 		"silex/silex": "1.*",
 		"twig/twig": "1.*",
-		"twig/extensions": "*"
+		"twig/extensions": "*",
+		"symfony/twig-bridge": "~2.3",
+		"doctrine/orm": "*"
 	}
 }
