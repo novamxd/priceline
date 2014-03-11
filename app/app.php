@@ -18,6 +18,9 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 //include our blog controller routes
 include 'controllers/blog.php';
 
+//include our error controller routes
+include 'controllers/error.php';
+
 //run
 $app->run();
 
