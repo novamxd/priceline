@@ -1,0 +1,16 @@
+{% extends "page.twig" %}
+
+{% block title %}Home | My Blog{% endblock %}
+
+{% block content %}
+	<h1>My Blog</h1>
+	{% for item in recent %}
+	
+		<h2><a href="/index.php/post/{{item.id}}">{{item.title|e}}</a> <small>{{item.posted_date|date("M j Y")}}</small></h2>
+		{{item.content[:300]|trim|replace({"\n":"<br/>"})|raw}}...
+		<div>
+			<small>by {{item.name|e}}</small>
+		</div>
+		
+	{% endfor %}
+{% endblock %}

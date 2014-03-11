@@ -1,0 +1,19 @@
+<h3>Archived Dates</h3>
+<ul class="nav nav-stacked">
+		
+	{% for archive_year in archive_years %}
+	   
+		<li><h4>{{archive_year.year|e}}</h4></li>
+		
+		{% for archive_month in archive_year.months %}
+			{% set archive_date = archive_year.year ~ '/' ~ archive_month.month ~ '/01' %}
+			<li><a href="/index.php/archive/{{archive_year.year}}/{{archive_month.month}}">{{archive_date|date("F")}}</a></li>			
+		{% endfor %}
+		
+		{% if loop.last != true %}
+			<li class="divider"></li>
+		{% endif %}		
+
+	{% endfor %}			
+
+</ul>

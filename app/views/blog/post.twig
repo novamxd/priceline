@@ -1,0 +1,11 @@
+{% extends "page.twig" %}
+
+{% block title %}{{post.title}} | My Blog{% endblock %}
+
+{% block content %}
+	<h1>{{post.title|e}} <small>{{post.posted_date|date("M j Y")}}</small></h1>
+	{{post.content|trim|replace({"\n":"<br/>"})|raw}}
+	<div>
+		<small>by {{post.name|e}}</small>
+	</div>
+{% endblock %}

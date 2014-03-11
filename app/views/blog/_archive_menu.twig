@@ -1,0 +1,26 @@
+<div class="navbar-collapse collapse">
+  <ul class="nav navbar-nav">
+			
+	<li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Archive <b class="caret"></b></a>
+	  <ul class="dropdown-menu">
+		
+		{% for archive_year in archive_years %}
+		   
+			<li class="dropdown-header">{{archive_year.year|e}}</li>
+			
+			{% for archive_month in archive_year.months %}
+				{% set archive_date = archive_year.year ~ '/' ~ archive_month.month ~ '/01' %}
+				<li><a href="/index.php/archive/{{archive_year.year}}/{{archive_month.month}}">{{archive_date|date("F")}}</a></li>			
+			{% endfor %}
+			
+			{% if loop.last != true %}
+				<li class="divider"></li>
+			{% endif %}		
+
+		{% endfor %}		
+		
+	  </ul>
+	</li>
+  </ul>
+</div><!--/.nav-collapse -->

@@ -1,19 +1,14 @@
 <?php
-use Symfony\Component\HttpFoundation\Response;
-
-//simple error handler, taken right from silex
-$app->error(function (\Exception $e, $code) 
+//simple error handler, taken right from silex but integrated with twig
+$app->error(function(\Exception $e, $code) use($app)
 {
     switch ($code) 
 	{
         case 404:
-            $message = 'The requested page could not be found.';
+            return $app['twig']->render('404.twig');
             break;
         default:
-            $message = 'We are sorry, but something went terribly wrong.';
+            return $app['twig']->render('500.twig',array("e"=>$e));
     }
-
-    return new Response($message);
 });
-
 ?>
