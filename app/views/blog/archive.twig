@@ -1,21 +1,11 @@
 {% extends "page.twig" %}
+{% import "blog/_controller.twig" as blog_controller %}
 
 {% block title %}Archive{% endblock %}
 
 {% block content %}
 	
 	<h1>Archive for {{archive_date|date("F Y")}}</h1>
-	{% for item in posts %}
-		<h2><a href="/index.php/post/{{item.id}}">{{item.title|e}}</a> <small>{{item.posted_date|date("M j Y")}}</small></h2>
-		{{item.content[:300]|trim|replace({"\n":"<br/>"})|raw}}...
-		<div>
-			<small>by {{item.name|e}}</small>
-		</div>
-		
-	{% else %}
-
-		<p>We could not locate any articles based on your search criteria. Please try again</p>
-		
-	{% endfor %}
+	{{blog_controller.renderPosts(posts)}}
 	
 {% endblock %}

@@ -1,0 +1,10 @@
+<h3>Archives</h3>
+<ul class="nav nav-stacked">
+		
+	{% for archive_date in archive_summary %}
+	   
+		<li><a href="/index.php/archive/{{archive_date.date|date("Y")}}/{{archive_date.date|date("n")}}">{{archive_date.date|date("F Y")}} ({{archive_date.posts}})</a></li>
+		
+	{% endfor %}			
+
+</ul>

@@ -24,6 +24,7 @@
       <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+	
   </head>
   <body>
   
@@ -40,7 +41,7 @@
           <a class="navbar-brand" href="/">My Blog</a>
         </div>
 		
-		{% include "blog/_archive_menu.twig" %}
+		{% include "blog/_menu_archive.twig" %}
 		
       </div>
     </div>  
@@ -50,7 +51,8 @@
 		{% block content %}{% endblock %}
 		</div>
 		<div class="col-md-3">
-			{% include "blog/_archive_sidebar.twig" %}
+			{% include "blog/_sidebar_recent.twig" %}
+			{% include "blog/_sidebar_archive.twig" %}
 		</div>
 	</div>
 	

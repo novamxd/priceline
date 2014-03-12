@@ -5,25 +5,14 @@ use Symfony\Component\HttpFoundation\Response;
 $blog = $app['controllers_factory'];
 
 //register our blog archives
-$app['twig']->addGlobal('archive_years', getBlogArchiveMenu());
+$app['twig']->addGlobal('archive', getBlogArchive());
+$app['twig']->addGlobal('archive_summary', getBlogArchiveSummary());
+$app['twig']->addGlobal('recent_five', getBlogRecentPosts(5));
 
 $blog->get('/', function() use($app,&$dbh)
 {
-	//setup our statement
-	$statement = $dbh->prepare("SELECT post.*, user.name FROM post INNER JOIN user ON (user.id = post.user_id) ORDER BY post.posted_date DESC LIMIT 0,10");
-	
-	//placeholder array
-	$recent = array();	
-	
-	//run on the database
-	if( $statement->execute() )
-	{
-		//get our records
-		$recent = $statement->fetchAll(PDO::FETCH_ASSOC);
-	}
-	
 	return $app['twig']->render('blog/index.twig',array(
-		"recent" => $recent
+		"recent" => getBlogRecentPosts(10)
 	));
 });
 
@@ -124,7 +113,30 @@ $blog->get('/randomize', function() use($app,&$dbh)
 	return "";
 });
 
-function getBlogArchiveMenu()
+function getBlogRecentPosts($limit=10)
+{
+	global $dbh;
+	
+	//sanitize and validate to an integer;
+	$limit = (int)$limit;
+	
+	//setup our statement
+	$statement = $dbh->prepare("SELECT post.*, user.name FROM post INNER JOIN user ON (user.id = post.user_id) ORDER BY post.posted_date DESC LIMIT 0,$limit");
+	
+	//placeholder array
+	$recent = array();	
+	
+	//run on the database
+	if( $statement->execute() )
+	{
+		//get our records
+		$recent = $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	return $recent;
+}
+
+function getBlogArchive()
 {
 	global $dbh;
 	
@@ -158,6 +170,51 @@ function getBlogArchiveMenu()
 		
 		//set our menu
 		$menu = $years;
+	}
+	
+	return $menu;
+}
+
+function getBlogArchiveSummary()
+{
+	global $dbh;
+	
+	//placeholder menu
+	$menu = array();
+	
+	//create our increment (one month)
+	$interval = new DateInterval("P1M");	
+	
+	//get our date (beginning of the month
+	$date_end = new DateTime(date("Y-m-1"));
+	
+	//set our start date to one month back from the end date
+	$date_start = clone $date_end;
+	$date_start->sub($interval);
+	
+	//loop through the months
+	for($m = 12; 0 < $m; $m--)
+	{
+		//setup our statement
+		$statement = $dbh->prepare("SELECT COUNT(id) AS `posts` FROM post WHERE posted_date >= :date_start AND posted_date < :date_end ORDER BY posted_date DESC");	
+
+		//run on the database
+		if(! $statement->execute(array("date_start"=>$date_start->format("Y-m-d"),"date_end"=>$date_end->format("Y-m-d"))) )
+		{
+			continue;	
+		}
+		
+		//get our result
+		$result = $statement->fetch(PDO::FETCH_ASSOC);
+		
+		//add to our menu
+		$menu[] = array("date"=>clone $date_start,"posts"=>(int)$result["posts"]);
+		
+		//move our end date back
+		$date_end->sub($interval);
+		
+		//move our start date back
+		$date_start->sub($interval);			
 	}
 	
 	return $menu;
