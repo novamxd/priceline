@@ -1,0 +1,19 @@
+<h3>Recent Posts</h3>
+<ul class="nav nav-stacked">
+		
+	{% for post in recent_five %}
+	   
+		<li>
+			<a href="/index.php/post/{{post.id|e}}">
+				{% if post.title|length > 50 %}
+					{{post.title[:50]|trim|e}}...
+				{% else %}
+					{{post.title|trim|e}}
+				{% endif %}
+			
+			</a>
+		</li>
+		
+	{% endfor %}			
+
+</ul>

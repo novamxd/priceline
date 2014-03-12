@@ -4,7 +4,7 @@
 
 {% block content %}
 	<h1>{{post.title|e}} <small>{{post.posted_date|date("M j Y")}}</small></h1>
-	{{post.content|trim|replace({"\n":"<br/>"})|raw}}
+	<p>{{post.content|trim|replace({"\n":"<br/>"})|raw}}</p>
 	<div>
 		<small>by {{post.name|e}}</small>
 	</div>
